@@ -46,10 +46,12 @@ Abre tu navegador web y navega a http://localhost:3000.
 Página Principal
 Muestra una lista de productos disponibles en la tienda.
 Cada producto incluye su nombre, descripción, precio, stock y una imagen.
+
 Agregar Producto
 Formulario para agregar un nuevo producto a la tienda.
 Campos requeridos: Nombre, Descripción, Precio, Stock, URL de la Imagen.
 Al enviar el formulario, el producto se añade a la base de datos y se muestra en la página principal.
+
 Detalles del Producto
 Muestra detalles completos de un producto seleccionado.
 Información mostrada: Nombre, Descripción, Precio, Stock, Imagen y Precio Antiguo (si aplica).
