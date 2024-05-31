@@ -1,46 +1,111 @@
-# Getting Started with Create React App
+# LORENZZO
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Este proyecto es una aplicación web para la gestión y visualización de productos de una tienda de ropa. Utiliza React para el frontend y Node.js con Express y MongoDB para el backend.
 
-## Available Scripts
+## Descripción del Proyecto
 
-In the project directory, you can run:
+La aplicación permite agregar, listar y ver detalles de productos. Los productos incluyen información como nombre, descripción, precio, stock, y una imagen.
 
-### `npm start`
+### Estructura del Proyecto
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+- **frontend**: Contiene la aplicación React.
+- **backend**: Contiene el servidor Express y la conexión a MongoDB.
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+### Uso del Proyecto
 
-### `npm test`
+- **Página Principal**: Muestra una lista de productos.
+- **Agregar Producto**: Formulario para agregar un nuevo producto.
+- **Detalles del Producto**: Muestra detalles individuales de un producto seleccionado.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## Instrucciones de Instalación y Ejecución
 
-### `npm run build`
+### Requisitos Previos
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+- Node.js
+- MongoDB
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+### Configuración del Backend
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+1. Clona el repositorio:
+   ```bash
+   git clone https://github.com/username/tienda-ropa.git
+   cd tienda-ropa
+   
+### Instala las dependencias del frontend:
 
-### `npm run eject`
+cd ../frontend
+npm install
+Inicia la aplicación React:
+npm start
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+### Probar la Aplicación
+Abre tu navegador web y navega a http://localhost:3000.
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+## Prototipos de la Vista y Cómo Utilizarlas
+Página Principal
+Muestra una lista de productos disponibles en la tienda.
+Cada producto incluye su nombre, descripción, precio, stock y una imagen.
+Agregar Producto
+Formulario para agregar un nuevo producto a la tienda.
+Campos requeridos: Nombre, Descripción, Precio, Stock, URL de la Imagen.
+Al enviar el formulario, el producto se añade a la base de datos y se muestra en la página principal.
+Detalles del Producto
+Muestra detalles completos de un producto seleccionado.
+Información mostrada: Nombre, Descripción, Precio, Stock, Imagen y Precio Antiguo (si aplica).
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+## Ejemplos de Código
+# Backend - Rutas de Productos
+const express = require('express');
+const router = express.Router();
+const Product = require('../models/product.model');
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+router.route('/').get((req, res) => {
+  Product.find()
+    .then(products => res.json(products))
+    .catch(err => res.status(400).json('Error: ' + err));
+});
 
-## Learn More
+router.route('/add').post((req, res) => {
+  const { name, description, price, stock, imgUrl, oldPrice } = req.body;
+  const newProduct = new Product({ name, description, price, stock, imgUrl, oldPrice });
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+  newProduct.save()
+    .then(() => res.json('Product added!'))
+    .catch(err => res.status(400).json('Error: ' + err));
+});
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+module.exports = router;
+# Frontend - ProductList Component
+
+import React from 'react';
+import { useProductContext } from '../contexts/ProductContext';
+
+const ProductList: React.FC = () => {
+  const { products } = useProductContext();
+
+  return (
+    <div className="product-list">
+      <header>
+        <h1>LORENZZO como estilo de vida</h1>
+        <p>Las mejores marcas y atención para nuestros clientes en México</p>
+      </header>
+      <section className="new-products">
+        <h2>Nuevos productos</h2>
+        <ul>
+          {products.map((product) => (
+            <li key={product.id}>
+              <img src={product.imgUrl} alt={product.name} />
+              <h3>{product.name}</h3>
+              <p>{product.description}</p>
+              <p>Precio: ${product.price}</p>
+              <p>Stock: {product.stock}</p>
+              {product.oldPrice && <p>Precio Antiguo: ${product.oldPrice}</p>}
+            </li>
+          ))}
+        </ul>
+      </section>
+    </div>
+  );
+};
+
+export default ProductList;
