@@ -33,9 +33,10 @@ La aplicación permite agregar, listar y ver detalles de productos. Los producto
    
 ### Instala las dependencias del frontend e inicia la aplicación:
 
-   bash
    cd ../frontend
+   
    npm install
+   
    npm start
 
 ### Probar la Aplicación
