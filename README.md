@@ -31,12 +31,11 @@ La aplicación permite agregar, listar y ver detalles de productos. Los producto
    git clone https://github.com/username/tienda-ropa.git
    cd tienda-ropa
    
-### Instala las dependencias del frontend:
+### Instala las dependencias del frontend e inicia la aplicación:
 
-cd ../frontend
-npm install
-Inicia la aplicación React:
-npm start
+   cd ../frontend
+   npm install
+   npm start
 
 ### Probar la Aplicación
 Abre tu navegador web y navega a http://localhost:3000.
@@ -53,8 +52,21 @@ Detalles del Producto
 Muestra detalles completos de un producto seleccionado.
 Información mostrada: Nombre, Descripción, Precio, Stock, Imagen y Precio Antiguo (si aplica).
 
+## Configuración de componentes
+
+| Nombre del Componente | Descripción | Enlace |
+|-----------------------|-------------|--------|
+| ProductList           | Muestra la lista de productos con detalles como nombre, descripción, precio y stock. | [ProductList.tsx](src/views/ProductList.tsx) |
+| AddProduct            | Formulario para añadir nuevos productos a la tienda. | [AddProduct.tsx](src/views/AddProduct.tsx) |
+| App                   | Configuración de las rutas y contexto de la aplicación. | [App.tsx](src/App.tsx) |
+| ProductContext        | Maneja el estado global de los productos utilizando Context API. | [ProductContext.tsx](src/contexts/ProductContext.tsx) |
+| index.css             | Estilos globales de la aplicación. | [index.css](src/index.css) |
+| index.js              | Configuración principal del servidor y conexión a MongoDB. | [index.js](src/index.js) |
+
+
 ## Ejemplos de Código
 # Backend - Rutas de Productos
+```bash
 const express = require('express');
 const router = express.Router();
 const Product = require('../models/product.model');
